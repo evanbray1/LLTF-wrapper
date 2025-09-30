@@ -44,7 +44,7 @@ lltf.set_wavelength(550)  # nm
 
 # Get current wavelength
 current_wl = lltf.get_wavelength()
-print(f"Current wavelength: {current_wl}nm")
+print(f"Current wavelength: {current_wl} nm")
 
 # Close connection
 lltf.close()
@@ -59,7 +59,7 @@ with LLTF() as lltf:
     lltf.initialize()
     lltf.set_wavelength(650)
     wavelength = lltf.get_wavelength()
-    print(f"Set to: {wavelength}nm")
+    print(f"Set to: {wavelength} nm")
 # Connection automatically closed
 ```
 
@@ -77,15 +77,23 @@ current = lltf.get_wavelength()
 lltf.close()
 ```
 
-## Demo Script
+## Demo Scripts
 
-Run the included demo to test functionality:
+### Basic Demo
+For quick start with minimal code:
 
 ```bash
-python examples/demo.py
+python examples/demo_basic.py
 ```
 
-The demo script demonstrates:
+### Advanced Demo
+For comprehensive examples and features:
+
+```bash
+python examples/demo_advanced.py
+```
+
+The demo scripts demonstrate:
 - Basic initialization and connection
 - Wavelength setting with automatic grating selection
 - Manual grating selection

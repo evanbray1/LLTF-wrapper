@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """
-LLTF Wrapper Demo
+LLTF Wrapper Advanced Demo
 
-This script demonstrates the usage of the LLTF Python wrapper.
-It shows how to initialize the dev    print("Next steps:")
-    print("1. Place your device's XML file in the xml_files directory")
-    print("2. Install PE_Filter_SDK.dll in your system PATH or alongside lltf_wrapper.py")
-    print("3. Call lltf.initialize() without simulate=True to connect to real hardware")
-    print("4. Use set_wavelength() and get_wavelength() for wavelength control") set/get wavelengths with
-automatic grating selection, and properly close the connection.
+This script demonstrates comprehensive usage of the LLTF Python wrapper.
+It shows initialization, error handling, context managers, XML configuration,
+automatic grating selection, and various usage patterns.
 
+For basic usage, see demo_basic.py instead.
 Run with simulation mode to test without actual hardware.
 """
 
@@ -39,8 +36,8 @@ def demo_basic_usage():
         for grating in lltf.grating_ranges:
             reg_range = grating['regular_range']
             ext_range = grating['extended_range']
-            print(f"  Grating {grating['index']}: {reg_range[0]}-{reg_range[1]}nm "
-                  f"(extended: {ext_range[0]}-{ext_range[1]}nm)")
+            print(f"  Grating {grating['index']}: {reg_range[0]}-{reg_range[1]} nm "
+                  f"(extended: {ext_range[0]}-{ext_range[1]} nm)")
 
         # Initialize in simulation mode
         print("\n=== Initializing in Simulation Mode ===")
@@ -52,7 +49,7 @@ def demo_basic_usage():
 
         # Get current wavelength
         current_wl = lltf.get_wavelength()
-        print(f"✓ Current wavelength: {current_wl}nm")
+        print(f"✓ Current wavelength: {current_wl} nm")
 
         # Demonstrate wavelength setting with automatic grating selection
         print("\n=== Testing Wavelength Control ===")
@@ -63,16 +60,15 @@ def demo_basic_usage():
             try:
                 # Determine which grating would be used
                 grating_idx = lltf._select_grating_for_wavelength(wl)
-                print(f"Setting {wl}nm (auto-selected grating {grating_idx})")
                 lltf.set_wavelength(wl)
-                print(f"  ✓ Successfully set to {wl}nm")
+                print(f"  ✓ Successfully set to {wl} nm with grating {grating_idx}")
             except LLTFError as e:
-                print(f"  ✗ Failed to set {wl}nm: {e}")
+                print(f"  ✗ Failed to set {wl} nm: {e}")
 
         # Test manual grating selection
         print("\n=== Testing Manual Grating Selection ===")
         try:
-            print("Setting 600nm on grating 0 (manual selection)")
+            print("Setting 600 nm on grating 0 (manual selection)")
             lltf.set_wavelength(600, grating=0)
             print("  ✓ Successfully set with manual grating selection")
         except LLTFError as e:
@@ -81,7 +77,7 @@ def demo_basic_usage():
         # Test invalid wavelength
         print("\n=== Testing Error Handling ===")
         try:
-            print("Attempting to set invalid wavelength (1500nm)")
+            print("Attempting to set invalid wavelength (1500 nm)")
             lltf.set_wavelength(1500)
         except LLTFError as e:
             print(f"  ✓ Correctly caught error: {e}")
@@ -111,7 +107,7 @@ def demo_context_manager():
             for wl in [500, 700]:
                 lltf.set_wavelength(wl)
                 current = lltf.get_wavelength()
-                print(f"  Set {wl}nm, current: {current}nm")
+                print(f"  Set {wl} nm, current: {current} nm")
 
         print("✓ Context manager automatically closed connection")
 
@@ -152,6 +148,6 @@ if __name__ == "__main__":
     print("\n=== Demo Complete ===")
     print("The LLTF wrapper is ready for use!")
     print("\nNext steps:")
-    print("1. Place your device's XML file in the same directory as this script")
+    print("1. Place your device's XML file in the xml_files directory")
     print("2. Call lltf.initialize() without simulate=True to connect to real hardware")
     print("3. Use set_wavelength() and get_wavelength() for wavelength control")

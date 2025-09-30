@@ -5,8 +5,8 @@ A Python wrapper for the NKT Photonics Laser Line Tunable Filter (LLTF) DLL.
 This module provides a class-based interface to control LLTF devices with
 automatic grating selection and error handling.
 
-Author: LLTF-tools
-Date: 2024
+Author: Evan Bray
+Date: 2025
 """
 
 import ctypes as ct
@@ -62,6 +62,7 @@ class LLTF:
         self.grating_ranges = []
         self.system_name = None
         self.simulate_mode = False
+        self.simulated_wavelength = 550.0  # Default starting wavelength for simulation
         
         # Load XML configuration
         self._load_xml_config()
@@ -175,16 +176,16 @@ class LLTF:
         for grating in self.grating_ranges:
             ext_min, ext_max = grating['extended_range']
             if ext_min <= wavelength <= ext_max:
-                warnings.warn(f"Wavelength {wavelength}nm is in extended range for grating {grating['index']}")
+                warnings.warn(f"Wavelength {wavelength} nm is in extended range for grating {grating['index']}")
                 return grating['index']
         
         # Build error message with available ranges
         ranges_str = []
         for grating in self.grating_ranges:
             reg_min, reg_max = grating['regular_range']
-            ranges_str.append(f"Grating {grating['index']}: {reg_min}-{reg_max}nm")
+            ranges_str.append(f"Grating {grating['index']}: {reg_min}-{reg_max} nm")
         
-        raise LLTFError(f"Wavelength {wavelength}nm not supported. Available ranges: {', '.join(ranges_str)}")
+        raise LLTFError(f"Wavelength {wavelength} nm not supported. Available ranges: {', '.join(ranges_str)}")
     
     def initialize(self, simulate: bool = False) -> None:
         """
@@ -243,8 +244,8 @@ class LLTF:
             Current wavelength in nanometers
         """
         if self.simulate_mode:
-            # Return a default wavelength for simulation
-            return 550.0
+            # Return the currently simulated wavelength
+            return self.simulated_wavelength
             
         if self.handle is None:
             raise LLTFError("Device not initialized. Call initialize() first.")
@@ -275,7 +276,8 @@ class LLTF:
             raise LLTFError(f"Invalid grating index: {grating}. Must be 0 or 1.")
             
         if self.simulate_mode:
-            print(f"LLTF: Set wavelength to {wavelength}nm (simulation)")
+            self.simulated_wavelength = wavelength
+            print(f"LLTF: Set wavelength to {wavelength} nm (simulation)")
             return
             
         # Set wavelength on specific grating
