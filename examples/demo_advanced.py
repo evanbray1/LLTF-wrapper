@@ -147,7 +147,3 @@ if __name__ == "__main__":
 
     print("\n=== Demo Complete ===")
     print("The LLTF wrapper is ready for use!")
-    print("\nNext steps:")
-    print("1. Place your device's XML file in the xml_files directory")
-    print("2. Call lltf.initialize() without simulate=True to connect to real hardware")
-    print("3. Use set_wavelength() and get_wavelength() for wavelength control")
