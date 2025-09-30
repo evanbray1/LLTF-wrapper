@@ -1,0 +1,111 @@
+<Description>
+  
+ <Component Type="Filter" Id="LLTF Contrast M000010263">
+   
+   <Context>
+     <ScanSupport/>
+   </Context>
+   
+   <Device>
+     <Sn>M000010263</Sn>
+     <FilterMotorId>0</FilterMotorId>
+   </Device>
+   
+   <ManualGrating>1</ManualGrating>
+   
+   <Grating>
+
+     <Mode>Transmission</Mode>
+     <Period>690</Period>
+     
+     <Range>
+       <RegLower>400</RegLower>
+       <RegUpper>650</RegUpper>
+       <ExtLower>350</ExtLower>
+       <ExtUpper>700</ExtUpper>
+     </Range>
+
+     <GeneralInfo>
+       <GratingName>[ 400 ; 650 ] nm</GratingName>
+       <StageOffset>-126.403</StageOffset>
+       <FWHM>2</FWHM>
+       <BeamSide>Right</BeamSide>
+       <CalibStep>0.15</CalibStep>
+       <MinLinCorForCal>0.45</MinLinCorForCal>
+     </GeneralInfo>
+
+     <Calibration Type="Mfg">
+          <User>Photon Etc.</User>
+          <DateTime>20180511134145</DateTime>
+          <Temperature>0</Temperature>
+          <Offset>0.8770920668689968</Offset>
+          <Factor>0.9991201904861656</Factor>
+          <FocalLength>199457</FocalLength>
+          <FocalLengthCoef>-4.14e-06</FocalLengthCoef>
+          <Slope>0.000801973</Slope>
+          <Curve>-1.76662e-05</Curve>
+     </Calibration>
+
+     <Calibration Type="Current">
+          <User>Photon Etc.</User>
+          <DateTime>20180511134145</DateTime>
+          <Temperature>0</Temperature>
+          <Offset>0.8770920668689968</Offset>
+          <Factor>0.9991201904861656</Factor>
+          <FocalLength>199457</FocalLength>
+          <FocalLengthCoef>-4.14e-06</FocalLengthCoef>
+          <Slope>0.000801973</Slope>
+          <Curve>-1.76662e-05</Curve>
+     </Calibration>
+
+   </Grating>
+   
+   <Grating>
+
+     <Mode>Transmission</Mode>
+     <Period>1140</Period>
+     
+     <Range>
+       <RegLower>650</RegLower>
+       <RegUpper>1000</RegUpper>
+       <ExtLower>550</ExtLower>
+       <ExtUpper>1100</ExtUpper>
+     </Range>
+     
+     <GeneralInfo>
+       <GratingName>[ 650 ; 1000 ] nm</GratingName>
+       <StageOffset>125.372</StageOffset>
+       <FWHM>2</FWHM>
+       <BeamSide>Left</BeamSide>
+       <CalibStep>0.15</CalibStep>
+       <MinLinCorForCal>0.45</MinLinCorForCal>
+     </GeneralInfo>
+
+     <Calibration Type="Mfg">
+          <User>Photon Etc.</User>
+          <DateTime>20180511132311</DateTime>
+          <Temperature>0</Temperature>
+          <Offset>-0.4241587748287015</Offset>
+          <Factor>0.9993838650157658</Factor>
+          <FocalLength>199457</FocalLength>
+          <FocalLengthCoef>-4.14e-06</FocalLengthCoef>
+          <Slope>0.000801973</Slope>
+          <Curve>-1.76662e-05</Curve>
+     </Calibration>\
+
+     <Calibration Type="Current">
+          <User>Photon Etc.</User>
+          <DateTime>20180511132311</DateTime>
+          <Temperature>0</Temperature>
+          <Offset>-0.4241587748287015</Offset>
+          <Factor>0.9993838650157658</Factor>
+          <FocalLength>199457</FocalLength>
+          <FocalLengthCoef>-4.14e-06</FocalLengthCoef>
+          <Slope>0.000801973</Slope>
+          <Curve>-1.76662e-05</Curve>
+     </Calibration>
+   </Grating>
+ 
+ </Component>
+
+</Description>

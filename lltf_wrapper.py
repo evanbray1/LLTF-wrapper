@@ -14,7 +14,7 @@ from ctypes import byref
 import os
 import glob
 import xml.etree.ElementTree as ET
-from typing import Optional, Tuple, List
+from typing import Optional, List
 import warnings
 
 
@@ -69,10 +69,10 @@ class LLTF:
     def _load_xml_config(self) -> None:
         """Load and parse XML configuration file."""
         if self.xml_path is None:
-            # Search for XML files in current directory
-            xml_files = glob.glob("*.xml")
+            # Search for XML files in xml_files directory
+            xml_files = glob.glob("xml_files/*.xml")
             if not xml_files:
-                raise LLTFError("No XML configuration files found. Please provide xml_config_path or place XML file in current directory.")
+                raise LLTFError("No XML configuration files found. Please provide xml_config_path or place XML file in xml_files directory.")
             elif len(xml_files) > 1:
                 warnings.warn(f"Multiple XML files found: {xml_files}. Using {xml_files[0]}")
                 self.xml_path = xml_files[0]
