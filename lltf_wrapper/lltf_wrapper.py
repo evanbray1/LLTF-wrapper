@@ -73,8 +73,8 @@ class LLTF:
         use_default_config = False
         
         if self.xml_path is None:
-            # Search for XML files in xml_files directory
-            xml_files = glob.glob("xml_files/*.xml")
+            # Search for XML files in xml_files directory of this wrapper module
+            xml_files = glob.glob(os.path.join(os.path.dirname(__file__), "xml_files", "*.xml"))
             if not xml_files:
                 use_default_config = True
                 print('No XML configuration file found. Reverting to default simulation configuration.')
@@ -83,6 +83,7 @@ class LLTF:
                 self.xml_path = xml_files[0]
             else:
                 self.xml_path = xml_files[0]
+                print('Using XML configuration file:', self.xml_path)
         
         if self.xml_path and not os.path.exists(self.xml_path):
             use_default_config = True
