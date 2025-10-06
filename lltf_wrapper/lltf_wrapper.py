@@ -69,19 +69,28 @@ class LLTF:
         
     def _load_xml_config(self) -> None:
         """Load and parse XML configuration file."""
+        # Check if we need to use default simulation config
+        use_default_config = False
+        
         if self.xml_path is None:
             # Search for XML files in xml_files directory
             xml_files = glob.glob("xml_files/*.xml")
             if not xml_files:
-                raise LLTFError("No XML configuration files found. Please provide xml_config_path or place XML file in xml_files directory.")
+                use_default_config = True
+                print('No XML configuration file found. Reverting to default simulation configuration.')
             elif len(xml_files) > 1:
                 warnings.warn(f"Multiple XML files found: {xml_files}. Using {xml_files[0]}")
                 self.xml_path = xml_files[0]
             else:
                 self.xml_path = xml_files[0]
         
-        if not os.path.exists(self.xml_path):
-            raise LLTFError(f"XML configuration file not found: {self.xml_path}")
+        if self.xml_path and not os.path.exists(self.xml_path):
+            use_default_config = True
+            
+        # Use default simulation configuration if no XML file is available
+        if use_default_config:
+            self._load_default_simulation_config()
+            return
             
         # Parse XML to extract grating information
         try:
@@ -116,6 +125,26 @@ class LLTF:
             raise LLTFError(f"Failed to parse XML configuration: {e}")
         except Exception as e:
             raise LLTFError(f"Error reading XML configuration: {e}")
+    
+    def _load_default_simulation_config(self) -> None:
+        """Load default grating configuration for simulation mode."""
+        self.system_name = "SimulatedLLTF"
+        
+        # Default grating 0 configuration
+        grating_0 = {
+            'index': 0,
+            'regular_range': (400.0, 650.0),
+            'extended_range': (350.0, 700.0)
+        }
+        
+        # Default grating 1 configuration
+        grating_1 = {
+            'index': 1,
+            'regular_range': (650.0, 1000.0),
+            'extended_range': (550.0, 1100.0)
+        }
+        
+        self.grating_ranges = [grating_0, grating_1]
     
     def _load_dll(self) -> None:
         """Load the PE_Filter_SDK.dll library."""
