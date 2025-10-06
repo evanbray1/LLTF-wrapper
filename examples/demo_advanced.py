@@ -15,7 +15,7 @@ import os
 try:
     from lltf_wrapper import LLTF, LLTFError
 except ImportError:
-    # Add parent directory to path to import lltf_wrapper
+    # Add parent directory to path to import lltf_wrapper in case you are running this from within the repo without installing
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from lltf_wrapper import LLTF, LLTFError
 
