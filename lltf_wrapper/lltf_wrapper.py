@@ -16,6 +16,7 @@ import glob
 import xml.etree.ElementTree as ET
 from typing import Optional, List
 import warnings
+import numpy as np
 
 
 class LLTFError(Exception):
@@ -63,6 +64,8 @@ class LLTF:
         self.system_name = None
         self.simulate_mode = False
         self.simulated_wavelength = 550.0  # Default starting wavelength for simulation
+        self.simulation_uncertainty = 0.0  # Uncertainty for simulation offset
+        self.simulation_offset = 0.0  # Generated offset for simulation
         
         # Load XML configuration
         self._load_xml_config()
@@ -187,19 +190,32 @@ class LLTF:
         
         raise LLTFError(f"Wavelength {wavelength} nm not supported. Available ranges: {', '.join(ranges_str)}")
     
-    def initialize(self, simulate: bool = False) -> None:
+    def initialize(self, simulate: bool = False, uncertainty: float = 0.0) -> None:
         """
         Initialize connection to LLTF device.
         
         Args:
             simulate: If True, create virtual device for development/testing
+            uncertainty: Standard deviation for artificial offset in simulation mode (nm).
+                        Offset drawn from normal distribution with mean=0.5nm and sigma=uncertainty.
+                        Default is 0.0 (no offset).
         """
         self.simulate_mode = simulate
+        self.simulation_uncertainty = uncertainty
         
         if simulate:
+            # Generate artificial offset from normal distribution with mean=0.5nm and sigma=uncertainty
+            if uncertainty > 0:
+                self.simulation_offset = np.random.normal(0.5, uncertainty)
+            else:
+                self.simulation_offset = 0.0
+            
             # Create a dummy handle for simulation mode
             self.handle = ct.c_void_p(1)  # Non-null handle for simulation
-            print("LLTF: Initialized in simulation mode")
+            if uncertainty > 0:
+                print(f"LLTF: Initialized in simulation mode with uncertainty={uncertainty:.3f}nm (offset={self.simulation_offset:.3f}nm)")
+            else:
+                print("LLTF: Initialized in simulation mode")
             return
             
         # Load DLL and create handle
@@ -241,11 +257,11 @@ class LLTF:
         Get current wavelength setting.
         
         Returns:
-            Current wavelength in nanometers
+            Current wavelength in nanometers (with artificial offset in simulation mode)
         """
         if self.simulate_mode:
-            # Return the currently simulated wavelength
-            return self.simulated_wavelength
+            # Return the currently simulated wavelength with artificial offset
+            return self.simulated_wavelength + self.simulation_offset
             
         if self.handle is None:
             raise LLTFError("Device not initialized. Call initialize() first.")
