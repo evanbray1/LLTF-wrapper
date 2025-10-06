@@ -16,6 +16,7 @@ import glob
 import xml.etree.ElementTree as ET
 from typing import Optional, List
 import warnings
+import random
 
 
 class LLTFError(Exception):
@@ -63,6 +64,7 @@ class LLTF:
         self.system_name = None
         self.simulate_mode = False
         self.simulated_wavelength = 550.0  # Default starting wavelength for simulation
+        self.simulation_offset = 0.0  # Offset to simulate LLTF imperfection
         
         # Load XML configuration
         self._load_xml_config()
@@ -187,18 +189,24 @@ class LLTF:
         
         raise LLTFError(f"Wavelength {wavelength} nm not supported. Available ranges: {', '.join(ranges_str)}")
     
-    def initialize(self, simulate: bool = False) -> None:
+    def initialize(self, simulate: bool = False, uncertainty: float = 0.1) -> None:
         """
         Initialize connection to LLTF device.
         
         Args:
             simulate: If True, create virtual device for development/testing
+            uncertainty: Standard deviation (sigma) for simulated wavelength uncertainty in nm.
+                        Only used when simulate=True. The simulation adds an offset drawn from
+                        a normal distribution with mean=0.5 nm and sigma=uncertainty.
+                        Default is 0.1 nm.
         """
         self.simulate_mode = simulate
         
         if simulate:
             # Create a dummy handle for simulation mode
             self.handle = ct.c_void_p(1)  # Non-null handle for simulation
+            # Generate random offset from normal distribution (mean=0.5, sigma=uncertainty)
+            self.simulation_offset = random.gauss(0.5, uncertainty)
             print("LLTF: Initialized in simulation mode")
             return
             
@@ -244,8 +252,8 @@ class LLTF:
             Current wavelength in nanometers
         """
         if self.simulate_mode:
-            # Return the currently simulated wavelength
-            return self.simulated_wavelength
+            # Return the currently simulated wavelength with offset
+            return self.simulated_wavelength + self.simulation_offset
             
         if self.handle is None:
             raise LLTFError("Device not initialized. Call initialize() first.")
