@@ -15,14 +15,14 @@ import os
 try:
     from lltf_wrapper import LLTF
 except ImportError:
-    # Add parent directory to path to import lltf_wrapper in case you are running this file from within the repo
+    # Add parent directory to path to import lltf_wrapper in case you are running this file from within the repo without installing
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from lltf_wrapper import LLTF
 
 print("=== LLTF Basic Demo ===\n")
 
 # Initialize LLTF (uses automatic XML detection or specify path)
-lltf = LLTF(xml_config_path="../xml_files/M000010263.xml")
+lltf = LLTF(xml_config_path="../lltf_wrapper/xml_files/M000010263.xml")
 
 # Initialize in simulation mode (set to False for real hardware)
 lltf.initialize(simulate=True)
