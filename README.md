@@ -1,15 +1,15 @@
 # LLTF Python Wrapper
 
-A Python wrapper for the NKT Photonics Laser Line Tunable Filter (LLTF) DLL. This wrapper provides a clean, class-based interface for controlling LLTF devices with automatic grating selection and comprehensive error handling.
+A Python wrapper for the Photon etc / NKT Photonics Laser Line Tunable Filter (LLTF) DLL. This wrapper provides a clean, class-based interface for controlling LLTF devices with automatic grating selection and comprehensive error handling.
 
 ## Features
 
-- **Automatic Grating Selection**: Automatically selects the appropriate grating (0 or 1) based on the target wavelength and device specifications
-- **Error Handling**: Comprehensive error checking with meaningful Python exceptions
+- **Error Handling**: Comprehensive error checking
 - **Simulation Mode**: Virtual device support for development and testing without hardware
 - **Type Hints**: Full type annotation support for better IDE integration
 - **Context Manager**: Supports `with` statement for automatic resource cleanup
 - **XML Configuration**: Reads device specifications directly from manufacturer-provided XML files
+- **Automatic Grating Selection**: Automatically selects the appropriate grating (0 or 1), with option for manual override.
 
 ## Installation
 
@@ -19,7 +19,7 @@ A Python wrapper for the NKT Photonics Laser Line Tunable Filter (LLTF) DLL. Thi
    cd LLTF-tools
    ```
 
-2. **Install PE_Filter SDK**: You must install the PE_Filter SDK provided by Photon Etc. This includes the `PE_Filter_SDK.dll` library that must be accessible to your Python environment (either in your system PATH or in the same directory as `lltf_wrapper.py`).
+2. **Install PE_Filter SDK**: You must install the PE_Filter SDK provided by Photon Etc. This includes the `PE_Filter_SDK.dll` library that must be accessible to your Python environment (either in your system PATH or in the same directory as the running script).
 
 3. **Place XML Configuration**: Place your device's XML configuration file in the `xml_files/` directory:
    - Your XML file should be named with your device's serial number (e.g., `M000010263.xml`)
@@ -31,7 +31,7 @@ A Python wrapper for the NKT Photonics Laser Line Tunable Filter (LLTF) DLL. Thi
 ### Basic Usage
 
 ```python
-from lltf_wrapper import LLTF, LLTFError
+from lltf_wrapper import LLTF
 
 # Initialize LLTF (automatically finds XML file in xml_files/ directory)
 lltf = LLTF()
@@ -50,7 +50,7 @@ print(f"Current wavelength: {current_wl} nm")
 lltf.close()
 ```
 
-### Using Context Manager (Recommended)
+### Using Context Manager
 
 ```python
 from lltf_wrapper import LLTF
@@ -104,8 +104,8 @@ The demo scripts demonstrate:
 ## Requirements
 
 - Python 3.6+
-- Windows (required for PE_Filter_SDK.dll)
-- PE_Filter SDK from Photon Etc (includes PE_Filter_SDK.dll)
+- Windows
+- PE_Filter SDK supplied by Photon Et
 - Device XML configuration file (placed in xml_files/ directory)
 
 ## Grating Selection Logic
@@ -129,9 +129,8 @@ The LLTF has two internal gratings, each covering different wavelength ranges:
 
 ### "Failed to load PE_Filter_SDK.dll"
 - Ensure you have installed the PE_Filter SDK from Photon Etc
-- Make sure `PE_Filter_SDK.dll` is in your system PATH or in the same directory as `lltf_wrapper.py`
-- Verify you're running on Windows (DLL requirement)
+- Make sure `PE_Filter_SDK.dll` is in your system PATH or in a locatable directory. The .dll path can also be supplied during initialization with `LLTF(xml_config_path="/path/to/xml/file")`
 
-### "Wavelength X nm not supported"
+### "Wavelength [X] nm not supported"
 - Check your device's specifications using `get_grating_ranges()`
 - Verify the wavelength is within your device's capabilities

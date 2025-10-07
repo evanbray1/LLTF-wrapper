@@ -22,7 +22,9 @@ except ImportError:
 print("=== LLTF Basic Demo ===\n")
 
 # Initialize LLTF (uses automatic XML detection or specify path)
-lltf = LLTF(xml_config_path="../lltf_wrapper/xml_files/M000010263.xml")
+# lltf = LLTF(xml_config_path="/path/to/xml/file")
+lltf = LLTF()
+
 
 # Initialize in simulation mode (set to False for real hardware)
 lltf.initialize(simulate=True)

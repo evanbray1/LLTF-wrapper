@@ -307,7 +307,7 @@ class LLTF:
             
         if self.simulate_mode:
             self.simulated_wavelength = wavelength
-            print(f"LLTF: Set wavelength to {wavelength} nm (simulation)")
+            # print(f"LLTF: Set wavelength to {wavelength} nm (simulation)")
             return
             
         # Set wavelength on specific grating
