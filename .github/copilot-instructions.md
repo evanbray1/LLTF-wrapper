@@ -1,23 +1,37 @@
-# GitHub Copilot Instructions for LLTF-tools
+# GitHub Copilot Instructions for LLTF-wrapper
 
 ## Project Overview
 
-This project provides a Python wrapper for the NKT Photonics Laser Line Tunable Filter (LLTF) DLL. The wrapper abstracts the low-level C DLL interface into a clean Python API with automatic grating selection and comprehensive error handling.
+This project provides a Python wrapper for the NKT Photonics Laser Line Tunable Filter (LLTF) DLL. The wrap4. Handle ctypes conversion for parameters
+5. Add error checking with `_check_status()`
+6. Implement simulation behavior
+7. Add to `examples/demo_basic.py` or `examples/demo_advanced.py` for testing
+8. Update README.md documentationbstracts the low-level C DLL interface into a clean Python API with automatic grating selection and comprehensive error handling.
 
 ## Architecture
 
 ### Core Components
 
-1. **`lltf_wrapper.py`** - Main wrapper module
+1. **`lltf_wrapper/lltf_wrapper.py`** - Main wrapper module
    - `LLTF` class: Primary interface for device control
    - `LLTFError` exception: Custom exception for device errors
    - XML parsing for device configuration
    - Simulation mode for development/testing
 
-2. **`demo.py`** - Example usage and testing script
-   - Demonstrates all major functionality
+2. **`lltf_wrapper/__init__.py`** - Package initialization
+   - Exports main classes: `LLTF`, `LLTFError`
+   - Package metadata and version information
+
+3. **`examples/`** - Demo and example scripts
+   - `demo_basic.py`: Minimal usage example for getting started
+   - `demo_advanced.py`: Comprehensive feature demonstration
    - Shows both simulation and real device usage patterns
    - Includes error handling examples
+
+4. **`setup.py`** - Package installation configuration
+   - Enables `pip install .` for local development
+   - Includes package metadata and dependencies
+   - Handles XML file inclusion via package_data
 
 3. **External Dependencies**
    - `PE_Filter_SDK.dll` - NKT Photonics proprietary DLL
@@ -48,7 +62,7 @@ This project provides a Python wrapper for the NKT Photonics Laser Line Tunable 
 
 3. **Testing Considerations**
    - All new functionality should work in simulation mode
-   - Add test cases to `demo.py` for new features
+   - Add test cases to `examples/demo_basic.py` or `examples/demo_advanced.py` for new features
    - Consider edge cases and invalid inputs
    - Test with both automatic and manual grating selection
 
@@ -140,7 +154,7 @@ except ValueError as e:
 ### Testing New Features
 
 1. **Simulation First**: Implement and test simulation mode behavior
-2. **Demo Integration**: Add examples to `demo.py`
+2. **Demo Integration**: Add examples to `examples/demo_basic.py` or `examples/demo_advanced.py`
 3. **Error Scenarios**: Test invalid inputs and error conditions
 4. **Documentation**: Update README.md with new functionality
 
