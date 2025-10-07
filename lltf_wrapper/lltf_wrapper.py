@@ -68,8 +68,11 @@ class LLTF:
         self._load_xml_config()
         
     def _load_xml_config(self) -> None:
-        """Load and parse XML configuration file."""
-        # Check if we need to use default simulation config
+        """Load and parse XML configuration file.
+        If self.xml_path isn't provided, search for XML files in xml_files/ directory.
+        If no XML file is found, use a hardcoded set of grating characteristics."""
+        
+        # Create a variable that will get set to True if it is decided that we must use some default simulation config
         use_default_config = False
         
         if self.xml_path is None:
