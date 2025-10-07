@@ -1,7 +1,9 @@
 # LLTF Python Wrapper
 
 A Python wrapper for the Photon etc / NKT Photonics Laser Line Tunable Filter (LLTF) DLL. This wrapper provides a clean, class-based interface for controlling LLTF devices with automatic grating selection and comprehensive error handling.
+
 <img width="675" height="307" alt="image" src="https://github.com/user-attachments/assets/5b5370e6-9909-4292-8afe-2ef9339fc782" />
+
 ## Features
 
 - **Error Handling**: Comprehensive error checking
