@@ -25,9 +25,8 @@ print("=== LLTF Basic Demo ===\n")
 # lltf = LLTF(xml_config_path="/path/to/xml/file")
 lltf = LLTF()
 
-
 # Initialize in simulation mode (set to False for real hardware)
-lltf.initialize(simulate=True)
+lltf.initialize(simulate=False)
 print("LLTF initialized")
 
 # Get available wavelength ranges
