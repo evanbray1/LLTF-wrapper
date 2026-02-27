@@ -184,6 +184,15 @@ class LLTF:
             
             if status in error_descriptions:
                 error_msg += f": {error_descriptions[status]}"
+            
+            # PE_MISSSING_HARMONIC_FILTER (6): demoted to a warning because the
+            # hardware around which this wrapper was built is known to have the harmonic filter installed;
+            # so this is presumed to be a bug and can be ignored. The SDK
+            # appears to report this spuriously in some configurations.
+            if status == self.PE_MISSSING_HARMONIC_FILTER:
+                warnings.warn(f"{error_msg}: PE_MISSSING_HARMONIC_FILTER (spurious, continuing)", 
+                              UserWarning, stacklevel=2)
+                return
                 
             raise LLTFError(error_msg)
     
