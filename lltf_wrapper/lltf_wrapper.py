@@ -323,7 +323,7 @@ class LLTF:
             return
             
         # Set wavelength on specific grating
-        status = self.dll.PE_SetWavelengthOnGrating(self.handle, grating, ct.c_double(wavelength))
+        status = self.dll.PE_SetWavelengthOnGrating(self.handle, int(grating), ct.c_double(wavelength))
         self._check_status(status, f"PE_SetWavelengthOnGrating(grating={grating})")
     
     def get_grating_ranges(self) -> List[dict]:
